@@ -12,8 +12,6 @@ if(DB_USERNAME)
 else
   MONGODB_URI = `mongodb://${DB_HOSTNAME}/${DB_DATABASE}`
 
-console.log(MONGODB_URI)
-
   mongoose.connect(MONGODB_URI)
   .then(()=>{
     console.log('Database connected succesfully')

@@ -8,6 +8,7 @@ import dotenv from 'dotenv'
 import { engine } from 'express-handlebars'
 import indexRoutes from './routes/index.routes'
 import usersRoutes from './routes/users.routes'
+import appRoutes from './routes/app.routes'
 
 
 dotenv.config()
@@ -41,18 +42,17 @@ app.use(flash())
 
 // Globas
 app.use((req, res, next)=>{
-  console.log(req.user)
-  console.log(req.flash('error'))
   res.locals.suscess_msg = req.flash('success_msg')
   res.locals.error_msg = req.flash('error_msg')
   res.locals.error = req.flash('error')
-  res.locals.user = req.user
+  res.locals.user = req.user || null
   next()
 })
 
 // Routes
 app.use(indexRoutes)
 app.use(usersRoutes)
+app.use(appRoutes)
 
 // Public 
 app.use(express.static(path.join(__dirname,'public')))

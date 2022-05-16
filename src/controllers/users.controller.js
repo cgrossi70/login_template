@@ -12,7 +12,7 @@ usersCtrl.renderSigninForm = (req,res) => {
 }
 
 usersCtrl.signin = passport.authenticate("local",{
-  successRedirect: '/',
+  successRedirect: '/app',
   failureRedirect: '/users/signin', 
   failureFlash: true 
 })
@@ -38,7 +38,6 @@ usersCtrl.signup = async (req, res) => {
   else {
     const newUser = new User ({name, email, password})
     newUser.password = await newUser.encryptPassword(password)
-    console.log(newUser)
     await newUser.save()
     req.flash('success_msg','User signed up successfully')
     res.redirect('/users/signin')
@@ -46,7 +45,7 @@ usersCtrl.signup = async (req, res) => {
 }
 
 usersCtrl.logout = (req,res) =>{
-  //passport.logout()
+  req.logout()
   req.flash('success_msg','You are logged out !!!!')
   res.redirect('/users/signin')
 }

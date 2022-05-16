@@ -17,8 +17,10 @@ passport.use(
       const match = await newUser.matchPassword(password)
       if(!match)
         return done(null,false,{message: 'Incorrect Password'})
-      else
+      else{
+        
         return done(null,newUser)
+      }
   })
 )
 
@@ -29,8 +31,17 @@ passport.serializeUser((user,done) => {
 
 passport.deserializeUser(async (id,done) => {
     User.findById(id, function(err, user) {
-      done(err, user);
+      // limpio el array de usuairo
+      const userClean = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        password: user.password
+      }
+      done(err, userClean);
     });
 })
 
-module.exports = passport
+module.exports = passport 
+
+
